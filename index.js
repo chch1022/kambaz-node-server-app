@@ -32,9 +32,9 @@ if (process.env.SERVER_ENV !== "development") {
     domain: process.env.SERVER_URL,
   };
 }
-
-app.use(session(sessionOptions));
 app.use(express.json());
+app.use(session(sessionOptions));
+
 
 UserRoutes(app);
 CourseRoutes(app);
@@ -45,4 +45,3 @@ Lab5(app);
 Hello(app);
 
 app.listen(process.env.PORT || 4000);
-console.log("Server running on http://localhost:4000");
