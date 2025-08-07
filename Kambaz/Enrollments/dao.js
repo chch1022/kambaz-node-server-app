@@ -15,12 +15,12 @@ export const findEnrollmentById = (enrollmentId) =>
   enrollments.find((enrollment) => enrollment._id === enrollmentId);
 
 export const findEnrollmentsByUserId = (userId) => 
-  enrollments.filter((enrollment) => enrollment.userId === userId);
+  enrollments.filter((enrollment) => enrollment.user === userId);
+
 
 export const findEnrollmentByUserAndCourse = (userId, courseId) =>
   enrollments.find((enrollment) => 
-    enrollment.userId === userId && enrollment.courseId === courseId
-  );
+    enrollment.user === userId && enrollment.course === courseId);
 
 export const updateEnrollment = (enrollmentId, enrollment) => 
   (enrollments = enrollments.map((e) => (e._id === enrollmentId ? enrollment : e)));
@@ -39,6 +39,15 @@ export const deleteEnrollmentByUserAndCourse = (userId, courseId) => {
 
 export const deleteEnrollmentsByUserId = (userId) => {
   const userEnrollments = findEnrollmentsByUserId(userId);
-  enrollments = enrollments.filter((e) => e.userId !== userId);
+  enrollments = enrollments.filter((e) => e.user !== userId);
   return userEnrollments;
+};
+
+export const enrollUserInCourse = (userId, courseId) => {
+  // Check if user is already enrolled
+  const existingEnrollment = findEnrollmentByUserAndCourse(userId, courseId);
+  if (existingEnrollment) {
+    return existingEnrollment; // Already enrolled
+  }
+  return createEnrollment({ user: userId, course: courseId });
 };
