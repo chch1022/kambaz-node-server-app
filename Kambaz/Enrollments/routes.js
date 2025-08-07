@@ -1,3 +1,11 @@
+import * as dao from "./dao.js";
+
 export default function EnrollmentRoutes(app) {
-    // Empty for now - can add enrollment routes later if needed
+    const enrollUser = (req, res) => {
+        const { userId, courseId } = req.body;
+        dao.enrollUserInCourse(userId, courseId);
+        res.sendStatus(200);
+    };
+
+    app.post("/api/enrollments", enrollUser);
 }
