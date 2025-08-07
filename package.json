@@ -1,0 +1,37 @@
+{
+  "type": "module",
+  "name": "kambaz-node-server-app",
+  "version": "1.0.0",
+  "description": "Node.js HTTP web server for the kambaz application",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/chch1022/webdev.git"
+  },
+  "keywords": [
+    "Node",
+    "REST",
+    "Server",
+    "HTTP",
+    "Web",
+    "Dev",
+    "CS5610"
+  ],
+  "author": "Chen Chen",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/chch1022/webdev/issues"
+  },
+  "homepage": "https://github.com/chch1022/webdev#readme",
+  "dependencies": {
+    "cors": "^2.8.5",
+    "dotenv": "^17.2.1",
+    "express": "^5.1.0",
+    "express-session": "^1.18.2",
+    "uuid": "^11.1.0"
+  }
+}
