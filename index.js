@@ -15,10 +15,10 @@ app.use(
   cors({
     credentials: true,
     origin: [
-      "http://localhost:5173",                              
-      "https://chenchen-summer-2025.netlify.app",          
-      process.env.NETLIFY_URL                              
-    ].filter(Boolean), 
+      "http://localhost:5173",
+      "https://chenchen-summer-2025.netlify.app",
+      process.env.NETLIFY_URL
+    ].filter(Boolean),
   })
 );
 
@@ -26,7 +26,18 @@ const sessionOptions = {
   secret: process.env.SESSION_SECRET || "kambaz",
   resave: false,
   saveUninitialized: false,
+  cookie: {
+    secure: false,           // Set to false for now
+    httpOnly: true,
+    maxAge: 1000 * 60 * 60 * 24, // 24 hours
+  }
 };
+
+if (process.env.NODE_ENV === "production") {
+  sessionOptions.proxy = true;
+  sessionOptions.cookie.secure = true;
+  sessionOptions.cookie.sameSite = "none";
+}
 
 if (process.env.SERVER_ENV !== "development") {
   sessionOptions.proxy = true;
@@ -34,7 +45,7 @@ if (process.env.SERVER_ENV !== "development") {
   //   sameSite: "none",
   //   secure: true,
 
- //
+  //
 }
 app.use(session(sessionOptions));
 app.use(express.json());
