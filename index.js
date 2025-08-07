@@ -29,12 +29,20 @@ if (process.env.SERVER_ENV !== "development") {
   sessionOptions.cookie = {
     sameSite: "none",
     secure: true,
-    domain: process.env.SERVER_URL,
+
   };
 }
-app.use(express.json());
 app.use(session(sessionOptions));
+app.use(express.json());
 
+app.get("/api/debug/session", (req, res) => {
+  res.json({
+    hasSession: !!req.session,
+    sessionId: req.sessionID,
+    currentUser: req.session?.currentUser || null,
+    cookies: req.headers.cookie
+  });
+});
 
 UserRoutes(app);
 CourseRoutes(app);
