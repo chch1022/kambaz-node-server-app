@@ -16,7 +16,9 @@ app.use(
   cors({
     credentials: true,
     origin: process.env.NETLIFY_URL || "http://localhost:5173",
-
+    methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
+    allowedHeaders: ['Content-Type', 'Authorization', 'Cookie'],
+    exposedHeaders: ['Set-Cookie'],
   })
 );
 
