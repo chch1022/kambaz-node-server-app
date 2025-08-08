@@ -11,45 +11,32 @@ import ModuleRoutes from "./Kambaz/Modules/routes.js";
 import EnrollmentRoutes from "./Kambaz/Enrollments/routes.js";
 
 const app = express();
-app.use(
-  cors({
-    credentials: true,
-    origin: [
-      "http://localhost:5173",
-      "https://chenchen-summer-2025.netlify.app",
-      process.env.NETLIFY_URL
-    ].filter(Boolean),
-  })
-);
 
-const sessionOptions = {
-  secret: process.env.SESSION_SECRET || "kambaz",
+// CORS MUST come first
+app.use(cors({
+  credentials: true,
+  origin: [
+    "http://localhost:5173",
+    "https://chenchen-summer-2025.netlify.app"
+  ]
+}));
+
+// JSON parsing MUST come before session
+app.use(express.json());
+
+// Session configuration
+app.use(session({
+  secret: process.env.SESSION_SECRET || "kambaz-secret-key-12345",
   resave: false,
   saveUninitialized: false,
   cookie: {
-    secure: false,           // Set to false for now
+    secure: false,        // Set to false for testing
     httpOnly: true,
-    maxAge: 1000 * 60 * 60 * 24, // 24 hours
+    maxAge: 1000 * 60 * 60 * 24 // 24 hours
   }
-};
+}));
 
-if (process.env.NODE_ENV === "production") {
-  sessionOptions.proxy = true;
-  sessionOptions.cookie.secure = true;
-  sessionOptions.cookie.sameSite = "none";
-}
-
-if (process.env.SERVER_ENV !== "development") {
-  sessionOptions.proxy = true;
-  // sessionOptions.cookie = {
-  //   sameSite: "none",
-  //   secure: true,
-
-  //
-}
-app.use(session(sessionOptions));
-app.use(express.json());
-
+// Debug route
 app.get("/api/debug/session", (req, res) => {
   res.json({
     hasSession: !!req.session,
@@ -59,6 +46,7 @@ app.get("/api/debug/session", (req, res) => {
   });
 });
 
+// Routes
 UserRoutes(app);
 CourseRoutes(app);
 AssignmentRoutes(app);
