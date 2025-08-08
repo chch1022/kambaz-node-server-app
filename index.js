@@ -12,29 +12,30 @@ import EnrollmentRoutes from "./Kambaz/Enrollments/routes.js";
 
 const app = express();
 
-// CORS MUST come first
-app.use(cors({
-  credentials: true,
-  origin: [
-    "http://localhost:5173",
-    "https://chenchen-summer-2025.netlify.app"
-  ]
-}));
+app.use(
+  cors({
+    credentials: true,
+    origin: process.env.NETLIFY_URL || "http://localhost:5173",
+  })
+);
 
-// JSON parsing MUST come before session
-app.use(express.json());
-
-// Session configuration
-app.use(session({
-  secret: process.env.SESSION_SECRET || "kambaz-secret-key-12345",
+const sessionOptions = {
+  secret: process.env.SESSION_SECRET || "kambaz",
   resave: false,
   saveUninitialized: false,
-  cookie: {
-    secure: false,        // Set to false for testing
-    httpOnly: true,
-    maxAge: 1000 * 60 * 60 * 24 // 24 hours
-  }
-}));
+};
+
+if (process.env.NODE_ENV !== "development") {
+  sessionOptions.proxy = true;
+  sessionOptions.cookie = {
+    sameSite: "none",
+    secure: true,
+    domain: process.env.NODE_SERVER_DOMAIN,
+  };
+}
+
+app.use(session(sessionOptions));
+app.use(express.json());
 
 // Debug route
 app.get("/api/debug/session", (req, res) => {
