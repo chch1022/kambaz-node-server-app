@@ -98,14 +98,20 @@ export default function UserRoutes(app) {
         res.json(courses);
     };
 
-    // 🎯 THIS IS THE MISSING ROUTE THAT FIXES YOUR 401 ERROR!
+
     const findCurrentUserCourses = (req, res) => {
         const currentUser = req.session["currentUser"];
         if (!currentUser) {
             res.sendStatus(401);
             return;
         }
+
+        console.log("Current user ID:", currentUser._id);
+        console.log("Looking for courses for user:", currentUser._id);
+
         const courses = courseDao.findCoursesForEnrolledUser(currentUser._id);
+        console.log("Found courses:", courses);
+
         res.json(courses);
     };
 
@@ -116,8 +122,6 @@ export default function UserRoutes(app) {
         }
 
         const newCourse = courseDao.createCourse(req.body);
-        // Note: You'll need to implement enrollUserInCourse in enrollmentsDao
-        // enrollmentsDao.enrollUserInCourse(currentUser._id, newCourse._id);
         res.json(newCourse);
     };
 
@@ -130,8 +134,8 @@ export default function UserRoutes(app) {
     app.post("/api/users/signin", signin);
     app.post("/api/users/signout", signout);
     app.post("/api/users/profile", profile);
-    
+
     app.get("/api/users/:userId/courses", findCoursesForEnrolledUser);
-    app.get("/api/users/current/courses", findCurrentUserCourses); 
+    app.get("/api/users/current/courses", findCurrentUserCourses);
     app.post("/api/users/current/courses", createCourse);
 }                      

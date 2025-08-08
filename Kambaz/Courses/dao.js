@@ -6,19 +6,22 @@ export function findAllCourses() {
 }
 
 export function findCoursesForEnrolledUser(userId) {
-  const { courses, enrollments, users } = Database;
-  const user = users.find(u => u._id === userId);
+  const { courses, enrollments } = Database;
   
-  // If user is faculty, show all courses (or courses they created)
-  if (user && user.role === "FACULTY") {
-    return courses; // Show all courses for faculty
-    // Or if you want to show only courses they created:
-    // return courses.filter(course => course.author === userId);
-  }
+  console.log("Finding courses for userId:", userId);
+  console.log("Available enrollments:", enrollments);
+  console.log("Available courses:", courses.map(c => ({id: c._id, name: c.name})));
   
-  // For students, show only enrolled courses
-  const enrolledCourses = courses.filter((course) =>
-    enrollments.some((enrollment) => enrollment.user === userId && enrollment.course === course._id));
+  const enrolledCourses = courses.filter((course) => {
+    const isEnrolled = enrollments.some((enrollment) => {
+      const match = enrollment.user === userId && enrollment.course === course._id;
+      console.log(`Checking enrollment: user ${enrollment.user} === ${userId} && course ${enrollment.course} === ${course._id} = ${match}`);
+      return match;
+    });
+    return isEnrolled;
+  });
+  
+  console.log("Enrolled courses found:", enrolledCourses);
   return enrolledCourses;
 }
 
