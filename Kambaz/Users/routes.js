@@ -77,6 +77,13 @@ export default function UserRoutes(app) {
     };
 
     const profile = (req, res) => {
+        console.log("=== PROFILE REQUEST ===");
+        console.log("Session ID:", req.sessionID);
+        console.log("Session data:", JSON.stringify(req.session, null, 2));
+        console.log("Cookies received:", req.headers.cookie);
+        console.log("Current user in session:", req.session["currentUser"]);
+        console.log("========================");
+
         const currentUser = req.session["currentUser"];
         if (!currentUser) {
             res.sendStatus(401);
@@ -84,7 +91,7 @@ export default function UserRoutes(app) {
         }
         res.json(currentUser);
     };
-
+    
     const signout = (req, res) => {
         req.session.destroy();
         res.sendStatus(200);
