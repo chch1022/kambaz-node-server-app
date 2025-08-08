@@ -16,6 +16,7 @@ app.use(
   cors({
     credentials: true,
     origin: process.env.NETLIFY_URL || "http://localhost:5173",
+    
   })
 );
 
