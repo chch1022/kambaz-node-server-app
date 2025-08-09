@@ -11,15 +11,7 @@ import EnrollmentRoutes from "./Kambaz/Enrollments/routes.js";
 import AssignmentRoutes from "./Kambaz/Assignments/routes.js";
 
 const app = express();
-app.use(
-  cors({
-    credentials: true,
-    origin: [
-      process.env.NETLIFY_URL || "http://localhost:5173",
-      "https://chenchen-summer-2025.netlify.app"
-    ],
-  })
-);
+
 
 const sessionOptions = {
   secret: process.env.SESSION_SECRET || "kambaz",
@@ -55,6 +47,15 @@ if (process.env.NODE_ENV !== "development") {
 }
 
 app.use(session(sessionOptions));
+app.use(
+  cors({
+    credentials: true,
+    origin: [
+      process.env.NETLIFY_URL || "http://localhost:5173",
+      "https://chenchen-summer-2025.netlify.app"
+    ],
+  })
+);
 app.use(express.json());
 
 UserRoutes(app);
