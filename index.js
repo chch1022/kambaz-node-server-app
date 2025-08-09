@@ -30,7 +30,7 @@ const sessionOptions = {
 if (process.env.NODE_ENV !== "development") {
   sessionOptions.proxy = true;
   sessionOptions.cookie = {
-    sameSite: "lax",
+    sameSite: "none",
     secure: true,
     httpOnly: true,
     maxAge: 24 * 60 * 60 * 1000, // 24 hours
