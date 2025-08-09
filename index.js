@@ -10,8 +10,6 @@ import ModuleRoutes from "./Kambaz/Modules/routes.js";
 import EnrollmentRoutes from "./Kambaz/Enrollments/routes.js";
 import AssignmentRoutes from "./Kambaz/Assignments/routes.js";
 
-const app = express();
-
 
 const sessionOptions = {
   secret: process.env.SESSION_SECRET || "kambaz",
@@ -33,8 +31,7 @@ if (process.env.NODE_ENV !== "development") {
     sameSite: "none",
     secure: true,
     httpOnly: true,
-    maxAge: 24 * 60 * 60 * 1000, // 24 hours
-    // Remove domain setting - let it auto-detect
+    maxAge: 24 * 60 * 60 * 1000, 
   };
 } else {
   // Development settings
@@ -46,6 +43,7 @@ if (process.env.NODE_ENV !== "development") {
   };
 }
 
+const app = express();
 app.use(session(sessionOptions));
 app.use(
   cors({
