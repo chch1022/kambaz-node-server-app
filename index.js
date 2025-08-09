@@ -14,7 +14,10 @@ const app = express();
 app.use(
   cors({
     credentials: true,
-    origin: process.env.NETLIFY_URL || "http://localhost:5173",
+    origin: [
+      process.env.NETLIFY_URL || "http://localhost:5173",
+      "https://chenchen-summer-2025.netlify.app"
+    ],
   })
 );
 
@@ -25,14 +28,34 @@ const sessionOptions = {
   resave: false,
   saveUninitialized: false,
 };
+// if (process.env.NODE_ENV !== "development") {
+//   sessionOptions.proxy = true;
+//   sessionOptions.cookie = {
+//     sameSite: "none",
+//     secure: true,
+//    // domain: process.env.NODE_SERVER_DOMAIN,
+//   };
+// }
+
 if (process.env.NODE_ENV !== "development") {
   sessionOptions.proxy = true;
   sessionOptions.cookie = {
     sameSite: "none",
     secure: true,
-   // domain: process.env.NODE_SERVER_DOMAIN,
+    httpOnly: true,
+    maxAge: 24 * 60 * 60 * 1000, // 24 hours
+    // Remove domain setting - let it auto-detect
+  };
+} else {
+  // Development settings
+  sessionOptions.cookie = {
+    sameSite: "lax",
+    secure: false,
+    httpOnly: true,
+    maxAge: 24 * 60 * 60 * 1000,
   };
 }
+
 app.use(session(sessionOptions));
 app.use(express.json());
 
