@@ -21,7 +21,7 @@ app.use(
   })
 );
 
-console.log('REMOTE_SERVER:', VITE_REMOTE_SERVER); // debug
+console.log('REMOTE_SERVER:', NETLIFY_URL); // debug
 
 const sessionOptions = {
   secret: process.env.SESSION_SECRET || "kambaz",
