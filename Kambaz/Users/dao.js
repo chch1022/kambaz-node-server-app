@@ -2,10 +2,10 @@ import model from "./model.js"
 import { v4 as uuidv4 } from "uuid";
 //let { users } = db;
 export const createUser = (user) => {
- const newUser = { ...user, _id: uuidv4() };
- users = [...users, newUser];
- return newUser;
-};
+  const newUser = { ...user, _id: uuidv4() };
+  return model.create(newUser);
+}
+
 export const findUsersByRole = (role) => model.find({ role: role }); // or just model.find({ role })
 export const findAllUsers = () => model.find();
 export const findUserById = (userId) => model.findById(userId);
