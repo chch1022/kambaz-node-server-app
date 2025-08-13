@@ -2,6 +2,7 @@ import Database from "../Database/index.js";
 import { v4 as uuidv4 } from "uuid";
 import model from "./model.js";
 
+
 export function findAllCourses() {
   return model.find();
 }
