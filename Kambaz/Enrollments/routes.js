@@ -1,4 +1,4 @@
-import * as dao from "./dao.js";
+import * as enrollmentsDao from "./dao.js";  // Add this line
 
 export default function EnrollmentRoutes(app) {
     // Enroll user in course
