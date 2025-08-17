@@ -54,7 +54,8 @@ app.use(
     credentials: true,
     origin: [
       process.env.NETLIFY_URL || "http://localhost:5173",
-      "https://chenchen-kambaz-react-web-app-a6.netlify.app"
+      "https://chenchen-kambaz-react-web-app-a6.netlify.app",
+      "https://chch1022-quiz.netlify.app"
     ],
   })
 );
