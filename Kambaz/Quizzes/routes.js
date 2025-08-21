@@ -20,11 +20,12 @@ export default function QuizRoutes(app) {
     res.send(status)
   }
 
-  const deleteQuiz = async (req, res) => {
-    const { qid } = req.params;
-    await dao.deleteQuiz(qid)
-    res.send(200)
-  }
+  
+const deleteQuiz = async (req, res) => {
+  const { qid } = req.params;
+  const result = await dao.deleteQuiz(qid);
+  res.json(result); 
+}
 
   const updateQuiz = async (req, res) => {
     const { qid } = req.params;
